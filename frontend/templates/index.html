@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Quotes</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Georgia', serif;
+      color: #fff;
+      padding: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 3rem 3.5rem;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .quote-mark {
+      font-size: 5rem;
+      line-height: 1;
+      color: rgba(255,255,255,0.15);
+      font-family: Georgia, serif;
+      margin-bottom: -1rem;
+      display: block;
+    }
+
+    .quote-text {
+      font-size: 1.45rem;
+      line-height: 1.75;
+      color: #f0edf8;
+      margin: 1.5rem 0 2rem;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+
+    {% if quote.error %}
+    .quote-text { color: #ff8b8b; font-style: normal; }
+    {% endif %}
+
+    .divider {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      margin: 0 auto 1.5rem;
+      border-radius: 2px;
+    }
+
+    .quote-author {
+      font-size: 1rem;
+      font-style: normal;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a78bfa;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+    }
+
+    .refresh-btn {
+      margin-top: 2.5rem;
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .refresh-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .refresh-btn:active { transform: translateY(0); }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      font-family: monospace;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <span class="quote-mark">&ldquo;</span>
+
+    <p class="quote-text">{{ quote.text }}</p>
+
+    <div class="divider"></div>
+
+    <p class="quote-author">&mdash; {{ quote.author }}</p>
+
+    <a class="refresh-btn" href="/">New Quote &rarr;</a>
+  </div>
+
+  <footer>Quotes App &nbsp;·&nbsp;</footer>
+
+</body>
+</html>
