@@ -9,8 +9,8 @@
 ![alt text](grafana.png)
 
 ---
-![alt text](prometheus.png)
 
+![alt text](prometheus.png)
 
 ---
 ## 1. Clone and run the Quotes App
