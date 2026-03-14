@@ -9,7 +9,7 @@
 ![alt text](grafana.png)
 
 ---
-![alt text](image.png)
+![alt text](prometheus.png)
 
 
 ---
