@@ -6,6 +6,10 @@
 
 ---
 
+![alt text](argocd.png)
+
+---
+
 ![alt text](grafana.png)
 
 ---
