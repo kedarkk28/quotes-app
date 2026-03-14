@@ -1,28 +1,27 @@
-#
-Quotes App
+# Quotes App
 
-## 1. Clone and run the Quotes App
 ---
+## 1. Clone and run the Quotes App
 
 - Clone the quotes app repository:
-```bash
-git clone https://github.com/kedarkk28/quotes-app.git
-cd quotes-app
-```
+  ```bash
+  git clone https://github.com/kedarkk28/quotes-app.git
+  cd quotes-app
+  ```
 
 - Apply the Kubernetes yaml manifests for the quotes app:
-```bash
-kubectl apply -f k8s-specifications/
-```
+  ```bash
+  kubectl apply -f k8s-specifications/
+  ```
 
 - Forward the ports to access the frontend for quotes app:
-```bash
-kubectl port-forward svc/frontend-service 9081:81 -n quotes-app > /dev/null 2>&1 &
-```
+  ```bash
+  kubectl port-forward svc/frontend-service 9081:81 -n quotes-app > /dev/null 2>&1 &
+  ```
 
 ---
 
-## 2. Installing Argo CD:
+## 2. Install Argo CD to implement GitOps:
 - Create a namespace for Argo CD:
   ```bash
   kubectl create namespace argocd
@@ -49,3 +48,23 @@ kubectl port-forward svc/frontend-service 9081:81 -n quotes-app > /dev/null 2>&1
   ```
 ---
 
+## 3. Install Prometheus with Grafana:
+
+- Install using helm:
+  ```bash
+  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  helm repo add stable https://charts.helm.sh/stable
+  helm repo update
+  kubectl create namespace monitoring
+  helm install kind-prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --set prometheus.service.nodePort=30000 --set prometheus.service.type=NodePort --set grafana.service.nodePort=31000 --set grafana.service.type=NodePort --set alertmanager.service.nodePort=32000 --set alertmanager.service.type=NodePort --set prometheus-node-exporter.service.nodePort=32001 --set prometheus-node-exporter.service.type=NodePort
+  kubectl get svc -n monitoring
+  kubectl get namespace
+  ```
+
+- Forward the ports to access Prometheus and Grafana Dashboard:
+  ```bash
+  kubectl port-forward -n prometheus svc/kind-prometheus-kube-prome-prometheus 9090:9090 > /dev/null 2>&1 &
+
+  kubectl port-forward -n prometheus svc/kind-prometheus-grafana 9444:80 > /dev/null 2>&1 &
+  ```
+  - 
