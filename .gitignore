@@ -1,3 +1,5 @@
-#terraform/.terraform.lock.hcl
+terraform/.terraform.lock.hcl
 
-terraform/.terrafor*
+#terraform/.terrafor*
+
+terraform/.terraform/providers/
