@@ -32,3 +32,18 @@ output "get_app_url" {
   description = "Run this to get the quotes app frontend URL after ArgoCD syncs"
   value = "kubectl get svc frontend-service -n quotes-app -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
 }
+
+output "get_grafana_url" {
+  description = "Run this to get the Grafana dashboard URL"
+  value       = "kubectl get svc prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
+}
+
+output "get_prometheus_url" {
+  description = "Run this to get the Prometheus UI URL"
+  value       = "kubectl get svc prometheus-stack-kube-prom-prometheus -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
+}
+
+output "grafana_credentials" {
+  description = "Grafana login — username is always admin, password is grafana_admin_password in terraform.tfvars"
+  value       = "Username: admin  |  Password: see grafana_admin_password in terraform.tfvars"
+}

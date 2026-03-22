@@ -69,7 +69,6 @@ variable "node_disk_size_gb" {
   type        = number
 }
 
-# ── ArgoCD ────────────────────────────────────────────────────────────────────
 
 variable "argocd_chart_version" {
   description = "Version of the ArgoCD Helm chart to install. See: https://artifacthub.io/packages/helm/argo/argo-cd"
@@ -83,5 +82,31 @@ variable "github_repo_url" {
 
 variable "github_repo_path" {
   description = "Folder inside your GitHub repo that contains the Kubernetes YAML files."
+  type        = string
+}
+
+variable "prometheus_stack_chart_version" {
+  description = "Version of the kube-prometheus-stack Helm chart."
+  type        = string
+}
+
+variable "prometheus_retention" {
+  description = "How long Prometheus keeps metrics data."
+  type        = string
+}
+
+variable "prometheus_storage_size" {
+  description = "Size of the EBS disk for Prometheus metrics storage. "
+  type        = string
+}
+
+variable "grafana_admin_password" {
+  description = "Password for the Grafana admin user."
+  type        = string
+  sensitive   = true   
+}
+
+variable "grafana_storage_size" {
+  description = "Size of the EBS disk for Grafana persistent storage."
   type        = string
 }

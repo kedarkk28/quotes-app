@@ -33,3 +33,13 @@ argocd_chart_version = "6.7.3"
 github_repo_url  = "https://github.com/kedarkk28/quotes-app"
 
 github_repo_path = "k8s-manifests"
+
+prometheus_stack_chart_version = "58.3.0"
+
+prometheus_retention    = "15d"
+
+prometheus_storage_size = "20Gi"
+
+grafana_storage_size    = "5Gi"
+
+grafana_admin_password  = "admin1234"

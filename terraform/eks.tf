@@ -82,7 +82,11 @@ resource "aws_eks_addon" "coredns" {
 resource "aws_eks_addon" "ebs_csi" {
   cluster_name = aws_eks_cluster.main.name
   addon_name = "aws-ebs-csi-driver"
-  depends_on = [aws_eks_node_group.main]
+  depends_on = [
+    aws_eks_node_group.main,
+    aws_iam_role_policy_attachment.nodes_ebs_csi_policy  
+
+  ]
 }
 
 resource "kubernetes_storage_class" "gp3" {
@@ -93,6 +97,7 @@ resource "kubernetes_storage_class" "gp3" {
       "storageclass.kubernetes.io/is-default-class" = "true"
     }
   }
+
   storage_provisioner = "ebs.csi.aws.com"
   reclaim_policy = "Retain" 
   volume_binding_mode  = "WaitForFirstConsumer" 
