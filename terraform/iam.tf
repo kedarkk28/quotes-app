@@ -2,7 +2,6 @@
 resource "aws_iam_role" "cluster" {
   name = "${var.cluster_name}-cluster-role"
 
-  # Trust policy: only the EKS service can assume this role
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

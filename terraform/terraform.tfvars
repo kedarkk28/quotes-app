@@ -24,8 +24,8 @@ availability_zones = [
 
 node_instance_type = "t3.medium"
 node_desired_count = 3
-node_min_count     = 2
-node_max_count     = 5
+node_min_count  = 2
+node_max_count  = 5
 node_disk_size_gb  = 30
 
 argocd_chart_version = "6.7.3"

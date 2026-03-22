@@ -40,13 +40,13 @@ EOT
 
 variable "availability_zones" {
   description = "List of AZs to spread subnets across. Must match the number of subnet CIDRs above."
-  type        = list(string)
+  type = list(string)
 }
 
 
 variable "node_instance_type" {
   description = "EC2 instance type for worker nodes. t3.medium = 2 vCPU / 4GB RAM (minimum for K8s)."
-  type        = string
+  type   = string
 }
 
 variable "node_desired_count" {
