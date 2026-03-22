@@ -11,7 +11,7 @@ spec:
     app: frontend
   ports:
     - name: http
-      port: 81
+      port: 80
       targetPort: 5000
-      nodePort: 30084
-  type: NodePort
+      #nodePort: 30084
+  type: LoadBalancer

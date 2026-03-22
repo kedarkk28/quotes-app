@@ -25,8 +25,8 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: frontend
-          image: python:3.12-slim
-          imagePullPolicy: Never
+          image: dockerkk28/quotes-app-frontend:v1
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
               name: http

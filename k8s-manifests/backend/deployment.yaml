@@ -25,8 +25,8 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: backend
-          image: node:20-alpine
-          imagePullPolicy: Never
+          image: dockerkk28/quotes-app-backend:v1
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
               name: http

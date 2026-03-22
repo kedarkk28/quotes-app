@@ -13,7 +13,6 @@ spec:
     - name: postgres
       port: 5432
       targetPort: 5432
-      nodePort: 30002
- # type: ClusterIP
-#nodePort: 30002
-  type: NodePort
+      #nodePort: 30002
+  type: ClusterIP
+ # type: NodePort
