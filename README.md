@@ -1,85 +1,152 @@
 # Quotes App
 
+
+![alt text](<Screenshot (125).png>)
+---
+![alt text](<Screenshot (127).png>)
 ---
 
-![alt text](frontend.png)
+---
 
 ---
 
-![alt text](argocd.png)
+## Prerequisites
+
+Before running Terraform, make sure you have:
+ 
+| Tool       | Install                                           | Check             |
+|------------|---------------------------------------------------|-------------------|
+| Terraform  | https://developer.hashicorp.com/terraform/install | `terraform -v`    |
+| AWS CLI    | https://aws.amazon.com/cli/                       | `aws --version`   |
+| kubectl    | https://kubernetes.io/docs/tasks/tools/           | `kubectl version` |
+| AWS config | `aws configure`                                   | `aws sts get-caller-identity` |
+ 
+Your AWS IAM user needs permissions for: EKS, EC2, VPC, IAM, EBS.
+ 
+---
+## Step by step deployment
+ 
+### 1. Initialise Terraform.
+ 
+Downloads all providers declared in `main.tf`:
+ 
+```bash
+terraform init
+```
+--- 
+### 2. Preview what will be created with plan.
+ 
+```bash
+terraform plan
+```
+--- 
+### 3. Apply terraform
+ 
+```bash
+terraform apply --auto-approve
+```
+---
+### 4. Connect kubectl to the cluster and check the nodes are up.
+  
+```bash
+aws eks update-kubeconfig --region us-east-1 --name quotes-eks
+```
+ 
+Verify your 3 worker nodes are Ready:
+ 
+```bash
+kubectl get nodes
+```
+![alt text](<cluster.png>)
+
+![alt text](<nodes.png>)
+--- 
+### 5. Apply the ArgoCD Application
+ 
+```bash
+kubectl apply -f argocd-app.yaml
+```
+ 
+This is a manual step that connects ArgoCD application to your GitHub repo.
+
+--- 
+### 6. Access ArgoCD UI
+
+![alt text](argocd-server.png)
+
+![alt text](argocd-password.png)
+
+![alt text](argocd-ui.png)
+
+![alt text](argocd-1.png)
+
+![alt text](argocd-2.png)
+
+---
+### 7. Access the quotes app
+
+![alt text](frontend-svc.png)
+
+![alt text](ford.png)
 
 ---
 
-![alt text](grafana.png)
+### 8. Access Prometheus Dashboard
 
----
+![alt text](prometheus-svc.png)
 
 ![alt text](prometheus.png)
 
 ---
-## 1. Clone and run the Quotes App
 
-- Clone the quotes app repository:
-  ```bash
-  git clone https://github.com/kedarkk28/quotes-app.git
-  cd quotes-app
-  ```
+### 9. Access Grafana Dashborad
 
-- Apply the Kubernetes yaml manifests for the quotes app:
-  ```bash
-  kubectl apply -f k8s-specifications/
-  ```
-
-- Forward the ports to access the frontend for quotes app:
-  ```bash
-  kubectl port-forward svc/frontend-service 9081:81 -n quotes-app > /dev/null 2>&1 &
-  ```
 
 ---
 
-## 2. Install Argo CD to implement GitOps:
-- Create a namespace for Argo CD:
-  ```bash
-  kubectl create namespace argocd
-  ```
+### Project Structure
 
-- Apply the yaml manifest file for Argo CD:
-  ```bash
-  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  ```
+```
+quotes-app
+├── backend
+│   ├── Dockerfile
+│   ├── index.js
+│   └── package.json
+├── frontend
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── templates
+│       └── index.html
+├── k8s-manifests
+│   ├── argocd.yaml
+│   ├── backend
+│   │   ├── configmap.yaml
+│   │   ├── deployment.yaml
+│   │   └── service.yaml
+│   ├── frontend
+│   │   ├── configmap.yaml
+│   │   ├── deployment.yaml
+│   │   └── service.yaml
+│   └── postgres
+│       ├── deployment.yaml
+│       ├── pvc.yaml
+│       ├── secret.yaml
+│       └── service.yaml
+├── README.md
+└── terraform
+    ├── argocd.tf
+    ├── eks.tf
+    ├── iam.tf
+    ├── main.tf
+    ├── outputs.tf
+    ├── prometheus-grafana.tf
+    ├── terraform.tfstate
+    ├── terraform.tfstate.backup
+    ├── terraform.tfvars
+    ├── variables.tf
+    └── vpc.tf
+```
 
-- View the services in argocd namespace:
-  ```bash
-  kubectl get svc -n argocd
-  ```
-
-- Change the service from ClusterIP to NodePort:
-  ```bash
-  kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
-  ```
-
-- Forward the port to access Argo CD server and run in background:
-  ```bash
-  kubectl port-forward -n argocd service/argocd-server 8443:443 > /dev/null 2>&1 &
-  ```
 ---
 
-## 3. Install Prometheus with Grafana:
-
-- Install using helm:
-  ```bash
-  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-  helm repo add stable https://charts.helm.sh/stable
-  helm repo update
-  kubectl create namespace prometheus
-  helm install kind-prometheus prometheus-community/kube-prometheus-stack --namespace prometheus --set prometheus.service.nodePort=30000 --set prometheus.service.type=NodePort --set grafana.service.nodePort=31000 --set grafana.service.type=NodePort --set alertmanager.service.nodePort=32000 --set alertmanager.service.type=NodePort --set prometheus-node-exporter.service.nodePort=32001 --set prometheus-node-exporter.service.type=NodePort
-  kubectl get svc -n prometheus
-  kubectl get namespace
-  ```
-
-- Forward the ports to access Prometheus and Grafana Dashboard:
-  ```bash
-  kubectl port-forward -n prometheus svc/kind-prometheus-kube-prome-prometheus 9090:9090 > /dev/null 2>&1 &
-
-  kubectl port-forward -n prometheus svc/kind-prometheus-grafana 9444:80 > /dev/null 2>&1 &
-  ```
