@@ -1,9 +1,10 @@
 # Quotes App
 
+![alt text](quotes-1.png)
 
-![alt text](<Screenshot (125).png>)
 ---
-![alt text](<Screenshot (127).png>)
+
+![alt text](quotes-2.png)
 ---
 
 ## Prerequisites
