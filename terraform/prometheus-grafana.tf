@@ -3,7 +3,6 @@ resource "kubernetes_namespace" "monitoring" {
     name = "monitoring"
   }
 
-  # Namespace can only be created after nodes are ready
   depends_on = [aws_eks_node_group.main]
 }
 
