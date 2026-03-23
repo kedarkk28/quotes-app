@@ -1,5 +1,6 @@
 # Quotes App
 
+---
 ![alt text](quotes-1.png)
 
 ---
