@@ -6,10 +6,6 @@
 ![alt text](<Screenshot (127).png>)
 ---
 
----
-
----
-
 ## Prerequisites
 
 Before running Terraform, make sure you have:
@@ -24,6 +20,7 @@ Before running Terraform, make sure you have:
 Your AWS IAM user needs permissions for: EKS, EC2, VPC, IAM, EBS.
  
 ---
+
 ## Step by step deployment
  
 ### 1. Initialise Terraform.
@@ -101,6 +98,11 @@ This is a manual step that connects ArgoCD application to your GitHub repo.
 
 ### 9. Access Grafana Dashborad
 
+![alt text](grafana-svc.png)
+
+![alt text](grafana-login.png)
+
+![alt text](grafana.png)
 
 ---
 
